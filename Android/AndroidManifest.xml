@@ -7,6 +7,8 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="21" />
+    
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
 
     <application
         android:name="cc.bricolabs.vacalouradroid.App"

@@ -1,14 +1,19 @@
 package cc.bricolabs.vacalouradroid;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import cc.bricolabs.vacalouradroid.fragments.ButtonsFragment;
 import cc.bricolabs.vacalouradroid.fragments.ButtonsFragment.onButtonAction;
 
 public class MainActivity extends Activity implements onButtonAction {
+
+	private static final int RESULT_ENABLE_BT = 1;
 
 	ButtonsFragment buttons;
 
@@ -19,7 +24,7 @@ public class MainActivity extends Activity implements onButtonAction {
 
 		setTitle(String.format("%s %s", getString(R.string.app_name),
 				App.getAppVersionName()));
-		
+
 		setContentView(R.layout.activity_main);
 
 		if (savedInstanceState == null) {
@@ -32,20 +37,23 @@ public class MainActivity extends Activity implements onButtonAction {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+
+		switch (item.getItemId()) {
+
+		case R.id.action_settings:
+			return true;
+
+		case R.id.action_link_bt:
+			linkVacalourabot();
 			return true;
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -61,4 +69,46 @@ public class MainActivity extends Activity implements onButtonAction {
 		Log.d(App.LOGTAG, "Released " + button);
 	}
 
+	private void linkVacalourabot() {
+
+		BluetoothHelper bt = BluetoothHelper.getInstance();
+		switch (bt.init()) {
+
+		case BluetoothHelper.BT_NOT_SUPPORTED:
+
+			Toast.makeText(this,
+					R.string.main_device_does_not_support_bluetooth,
+					Toast.LENGTH_LONG).show();
+
+			break;
+
+		case BluetoothHelper.BT_DISABLED:
+
+			Intent enableIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableIntent, RESULT_ENABLE_BT);
+
+			break;
+
+		case BluetoothHelper.BT_OK:
+
+			// ToDo: open dialog to discover Vacalourabot
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		switch (requestCode) {
+
+		case RESULT_ENABLE_BT:
+			if (resultCode == RESULT_OK) {
+				linkVacalourabot();
+			}
+			break;
+
+		default:
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+	}
 }
