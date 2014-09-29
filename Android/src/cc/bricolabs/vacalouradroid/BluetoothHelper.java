@@ -13,7 +13,7 @@ public class BluetoothHelper {
 	private String bt_name = null;
 
 	private static BluetoothHelper instance = null;
-
+	
 	private BluetoothHelper() {
 	}
 	
@@ -50,6 +50,22 @@ public class BluetoothHelper {
 		bt_name = adapter.getName();
 
 		return BT_OK;
+	}
+
+	public void startDiscover() {
+
+		if (adapter != null)
+		{
+			adapter.startDiscovery();
+		}
+	}
+
+	public void cancelDiscovery() {
+
+		if (adapter != null)
+		{
+			adapter.cancelDiscovery();
+		}		
 	}
 
 }

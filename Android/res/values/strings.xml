@@ -2,8 +2,16 @@
 <resources>
 
     <string name="app_name">Vacalouradroid</string>
+    
     <string name="action_settings">Settings</string>
-    <string name="main_device_does_not_support_bluetooth">Device does not support Bluetooth.</string>
-    <string name="main_link_vacalourabot">Link Vacalourabot</string>
+    <string name="action_linkVacalourabot">Link Vacalourabot</string>
+    
+    <!-- main activity -->
+    <string name="main_deviceDoesNotSupportBluetooth">Device does not support Bluetooth.</string>
+    
+    <!-- discover activity -->
+    <string name="discover_scan">Scan Bluetooth</string>
+    <string name="discover_lstDevicesEmpty">No BT devices detected.</string>
+    
 
 </resources>

@@ -72,7 +72,7 @@ public class ButtonsFragment extends Fragment implements OnTouchListener {
 
 			if (button != BTN_NONE && buttonActionHandler != null) {
 
-				buttonActionHandler.onButtonReleased(button);
+				buttonActionHandler.onButtonPressed(button);
 			}
 		}
 

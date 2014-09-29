@@ -14,7 +14,8 @@ import cc.bricolabs.vacalouradroid.fragments.ButtonsFragment.onButtonAction;
 public class MainActivity extends Activity implements onButtonAction {
 
 	private static final int RESULT_ENABLE_BT = 1;
-
+	private static final int RESULT_DISCOVER_BT = 2;
+	
 	ButtonsFragment buttons;
 
 	@Override
@@ -77,7 +78,7 @@ public class MainActivity extends Activity implements onButtonAction {
 		case BluetoothHelper.BT_NOT_SUPPORTED:
 
 			Toast.makeText(this,
-					R.string.main_device_does_not_support_bluetooth,
+					R.string.main_deviceDoesNotSupportBluetooth,
 					Toast.LENGTH_LONG).show();
 
 			break;
@@ -92,7 +93,8 @@ public class MainActivity extends Activity implements onButtonAction {
 
 		case BluetoothHelper.BT_OK:
 
-			// ToDo: open dialog to discover Vacalourabot
+			Intent discoverIntent = new Intent(this, DiscoverActivity.class);
+			startActivityForResult(discoverIntent, RESULT_DISCOVER_BT);
 		}
 	}
 
@@ -104,6 +106,13 @@ public class MainActivity extends Activity implements onButtonAction {
 		case RESULT_ENABLE_BT:
 			if (resultCode == RESULT_OK) {
 				linkVacalourabot();
+			}
+			break;
+			
+		case RESULT_DISCOVER_BT:
+			if (resultCode == RESULT_OK) {
+				
+				// ToDo: send commands to Vacalourabot
 			}
 			break;
 
