@@ -102,12 +102,11 @@ public class DiscoverActivity extends Activity {
 			}
 		});
 
-		registerReceiver(mReceiver, new IntentFilter(
-				BluetoothDevice.ACTION_FOUND));
-		registerReceiver(mReceiver, new IntentFilter(
-				BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
-		registerReceiver(mReceiver, new IntentFilter(
-				BluetoothDevice.ACTION_UUID));
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(BluetoothDevice.ACTION_FOUND);		
+		filter.addAction(BluetoothDevice.ACTION_UUID);
+		filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+		registerReceiver(mReceiver, filter);
 	};
 
 	private void doDiscovery() {
