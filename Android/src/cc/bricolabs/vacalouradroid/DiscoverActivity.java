@@ -9,8 +9,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -25,12 +27,13 @@ import android.widget.TextView;
 
 public class DiscoverActivity extends Activity {
 
-	private ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<BluetoothDevice>();
-	private int selectedIndex = -1;
+	private static ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<BluetoothDevice>();
+	private static int selectedIndex = -1;
 
 	LayoutInflater inflater;
 
 	Button btnScan;
+	ListView lstDevices; 
 	DeviceAdapter deviceAdapter;
 
 	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -74,7 +77,7 @@ public class DiscoverActivity extends Activity {
 			}
 		});
 
-		ListView lstDevices = (ListView) findViewById(R.id.lstDevices);
+		lstDevices = (ListView) findViewById(R.id.lstDevices);
 		lstDevices.setEmptyView(findViewById(R.id.lstDevicesEmpty));
 		deviceAdapter = new DeviceAdapter();
 		lstDevices.setAdapter(deviceAdapter);
@@ -119,6 +122,17 @@ public class DiscoverActivity extends Activity {
 		BluetoothHelper.getInstance().cancelDiscovery();
 		unregisterReceiver(mReceiver);
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+	    switch (item.getItemId()) {
+	    case android.R.id.home:
+	        NavUtils.navigateUpFromSameTask(this);
+	        return true;
+	    }	    
+	    return super.onOptionsItemSelected(item);
+	}
 
 	private void addDiscoveredDevice(BluetoothDevice device) {
 
@@ -159,9 +173,11 @@ public class DiscoverActivity extends Activity {
 
 			BluetoothDevice device = discoveredDevices.get(position);
 
+			String name = (device.getName() != null ? device.getName() : String
+					.format("-%s-", device.getAddress()));
 			TextView txtTitle = (TextView) view
 					.findViewById(android.R.id.text1);
-			txtTitle.setText(device.getName());
+			txtTitle.setText(name);
 
 			TextView txtSubtitle = (TextView) view
 					.findViewById(android.R.id.text2);

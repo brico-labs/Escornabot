@@ -18,6 +18,8 @@ public class ButtonsFragment extends Fragment implements OnTouchListener {
 	public static final int BTN_WEST = 4;
 	public static final int BTN_GO = 5;
 	public static final int BTN_RESET = 6;
+	
+	View buttons[];
 
 	public interface onButtonAction {
 
@@ -39,13 +41,18 @@ public class ButtonsFragment extends Fragment implements OnTouchListener {
 		View view = inflater.inflate(R.layout.fragment_buttons, container,
 				false);
 
-		view.findViewById(R.id.btn_north).setOnTouchListener(this);
-		view.findViewById(R.id.btn_east).setOnTouchListener(this);
-		view.findViewById(R.id.btn_south).setOnTouchListener(this);
-		view.findViewById(R.id.btn_west).setOnTouchListener(this);
-		view.findViewById(R.id.btn_go).setOnTouchListener(this);
-		view.findViewById(R.id.btn_reset).setOnTouchListener(this);
-
+		buttons = new View[6];
+		buttons[0] = view.findViewById(R.id.btn_north);
+		buttons[1] = view.findViewById(R.id.btn_east);
+		buttons[2] = view.findViewById(R.id.btn_south);
+		buttons[3] = view.findViewById(R.id.btn_west);
+		buttons[4] = view.findViewById(R.id.btn_go);
+		buttons[5] = view.findViewById(R.id.btn_reset);
+		
+		for (View button : buttons) {
+			button.setOnTouchListener(this);
+		}
+		
 		return view;
 	}
 
