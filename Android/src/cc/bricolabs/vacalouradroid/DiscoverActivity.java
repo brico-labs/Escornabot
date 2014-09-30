@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,12 +29,11 @@ import android.widget.TextView;
 public class DiscoverActivity extends Activity {
 
 	private static ArrayList<BluetoothDevice> discoveredDevices = new ArrayList<BluetoothDevice>();
-	private static int selectedIndex = -1;
 
 	LayoutInflater inflater;
 
 	Button btnScan;
-	ListView lstDevices; 
+	ListView lstDevices;
 	DeviceAdapter deviceAdapter;
 
 	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -44,6 +44,7 @@ public class DiscoverActivity extends Activity {
 
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 
+				// remote device discovered
 				BluetoothDevice device = intent
 						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
@@ -54,7 +55,18 @@ public class DiscoverActivity extends Activity {
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED
 					.equals(action)) {
 
+				// discovery process is finished
 				discoveryFinished();
+
+			} else if (BluetoothDevice.ACTION_UUID.equals(action)) {
+
+				// UUIDs were fetched
+				BluetoothDevice deviceExtra = intent
+						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				Parcelable[] uuidExtra = intent
+						.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
+
+				// ToDo:
 			}
 		}
 	};
@@ -85,11 +97,8 @@ public class DiscoverActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				selectedIndex = position;
-				BluetoothDevice device = discoveredDevices.get(selectedIndex);
-				Log.i(App.LOGTAG,
-						String.format("Device selected: %s (%s)",
-								device.getName(), device.getAddress()));
+				BluetoothDevice device = discoveredDevices.get(position);
+				device.fetchUuidsWithSdp();
 			}
 		});
 
@@ -97,6 +106,8 @@ public class DiscoverActivity extends Activity {
 				BluetoothDevice.ACTION_FOUND));
 		registerReceiver(mReceiver, new IntentFilter(
 				BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
+		registerReceiver(mReceiver, new IntentFilter(
+				BluetoothDevice.ACTION_UUID));
 	};
 
 	private void doDiscovery() {
@@ -105,7 +116,6 @@ public class DiscoverActivity extends Activity {
 		btnScan.setEnabled(false);
 		discoveredDevices.clear();
 		deviceAdapter.notifyDataSetChanged();
-		selectedIndex = -1;
 		BluetoothHelper.getInstance().startDiscover();
 	}
 
@@ -122,16 +132,16 @@ public class DiscoverActivity extends Activity {
 		BluetoothHelper.getInstance().cancelDiscovery();
 		unregisterReceiver(mReceiver);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
-	    switch (item.getItemId()) {
-	    case android.R.id.home:
-	        NavUtils.navigateUpFromSameTask(this);
-	        return true;
-	    }	    
-	    return super.onOptionsItemSelected(item);
+
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private void addDiscoveredDevice(BluetoothDevice device) {
