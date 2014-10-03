@@ -68,7 +68,7 @@
 // step calibration
 #define STEPPERS_STEPS_PER_SECOND 1000
 #define STEPPERS_LINE_STEPS 2000
-#define STEPPERS_TURN_STEPS 1344
+#define STEPPERS_TURN_STEPS 1512
 
 #endif
 
@@ -78,13 +78,13 @@
 
 #ifdef BUTTONS_DIGITAL
 
-// Button set pin setup (digital inputs)
-#define BS_DIGITAL_UP 2
-#define BS_DIGITAL_RIGHT 3
-#define BS_DIGITAL_DOWN 4
-#define BS_DIGITAL_LEFT 5
-#define BS_DIGITAL_GO 12
-#define BS_DIGITAL_RESET 13
+// Button set pin setup (digital or analog inputs)
+#define BS_DIGITAL_UP A0
+#define BS_DIGITAL_RIGHT A1
+#define BS_DIGITAL_DOWN A2
+#define BS_DIGITAL_LEFT A3
+#define BS_DIGITAL_GO A4
+#define BS_DIGITAL_RESET A5
 
 #endif // BUTTONS_DIGITAL
 
@@ -94,7 +94,10 @@
 
 #ifdef BUTTONS_ANALOG
 
+// Button set pin setup (analog input)
 #define BS_ANALOG_PIN A0
+
+// input values for each key pressed
 #define BS_ANALOG_VALUE_UP 471
 #define BS_ANALOG_VALUE_RIGHT 299
 #define BS_ANALOG_VALUE_DOWN 211
@@ -109,6 +112,7 @@
 
 #ifdef BUTTONS_BLUETOOTH
 
+// Arduino serial port
 #define BS_BLUETOOTH_SERIAL	Serial
 //#define BS_BLUETOOTH_SERIAL	Serial1
 //#define BS_BLUETOOTH_SERIAL	Serial2

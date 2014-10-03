@@ -47,7 +47,7 @@ ButtonSet::BUTTON ButtonSetBluetooth::scanButtons()
 
 bool ButtonSetBluetooth::readCommand(char* buffer, size_t size)
 {
-    uint_8 tries = 10; // timeout 100 (10*delay) ms
+    uint8_t tries = 10; // timeout 100 (10*delay) ms
     while (tries-- > 0)
     {
         while (_config->serial->available())
