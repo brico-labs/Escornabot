@@ -26,11 +26,11 @@ public:
 
 	EngineSteppers(const Config* cfg);
 
-	void init();
+	virtual void init();
 
-	void turn90Degrees(int8_t times);
+	virtual void turn90Degrees(int8_t times);
 
-	void moveStraight(int8_t units);
+	virtual void moveStraight(int8_t units);
 
 private:
 

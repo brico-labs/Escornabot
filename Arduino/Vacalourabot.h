@@ -75,6 +75,14 @@
     };
     static ButtonSetAnalog BUTTONS_INSTANCE (&BS_CONFIG);
 
+#elif defined(BUTTONS_BLUETOOTH)
+
+    #include "ButtonSetBluetooth.h"
+    static const ButtonSetBluetooth::Config BS_CONFIG = {
+        serial: &BS_BLUETOOTH_SERIAL,
+    };
+    static ButtonSetBluetooth BUTTONS_INSTANCE (&BS_CONFIG);
+
 #endif // Button set
 
 

@@ -20,6 +20,7 @@
 // used button set
 //#define BUTTONS_DIGITAL
 #define BUTTONS_ANALOG
+//#define BUTTONS_BLUETOOTH
 
 // store configuration and program within internal EEPROM
 #define USE_PERSISTENT_MEMORY true
@@ -102,6 +103,18 @@
 #define BS_ANALOG_VALUE_RESET 82
 
 #endif // BUTTONS_ANALOG
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+#ifdef BUTTONS_BLUETOOTH
+
+#define BS_BLUETOOTH_SERIAL	Serial
+//#define BS_BLUETOOTH_SERIAL	Serial1
+//#define BS_BLUETOOTH_SERIAL	Serial2
+//#define BS_BLUETOOTH_SERIAL	Serial3
+
+#endif // BUTTONS_BLUETOOTH
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

@@ -14,15 +14,15 @@ public:
 
 	enum
 	{
-		BUTTON_NONE,
-		BUTTON_UP,
-		BUTTON_RIGHT,
-		BUTTON_DOWN,
-		BUTTON_LEFT,
-		BUTTON_GO,
-		BUTTON_RESET,
+		BUTTON_NONE = 0,
+		BUTTON_UP = 1,
+		BUTTON_RIGHT = 2,
+		BUTTON_DOWN = 3,
+		BUTTON_LEFT = 4,
+		BUTTON_GO = 5,
+		BUTTON_RESET = 6,
 	};
-        typedef uint8_t BUTTON;
+    typedef uint8_t BUTTON;
 
 	/**
 	 * Does the hardware initialization.
