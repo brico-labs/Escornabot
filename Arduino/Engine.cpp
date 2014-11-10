@@ -23,14 +23,28 @@ See LICENSE.txt for details
 */
 
 #include "Engine.h"
+#include "StatusIndicatorManager.h"
+#include <Arduino.h>
+
+extern StatusIndicatorManager* INDICATORS;
 
 void Engine::executeProgram(MoveProgram* program)
 {
+    uint8_t move_count = program->getMoveCount();
+
+    // program is started
+    INDICATORS->indicateProgramStarted(move_count);
+
     // move by move
-    for (int m = 0; m < program->getMoveCount(); m++)
+    for (int m = 0; m < move_count; m++)
     {
+        MOVE move = program->getMove(m);
+
+        // pre move indication
+        INDICATORS->indicateMoveExecuting(move);
+
         // which move
-        switch (program->getMove(m))
+        switch (move)
         {
             case MOVE_RIGHT:
                 turn90Degrees(1);
@@ -45,7 +59,16 @@ void Engine::executeProgram(MoveProgram* program)
                 moveStraight(-1);
                 break;
         }
+
+        // post move indication
+        INDICATORS->indicateMoveExecuted(move);
+
+        // post move pause
+        delay(program->getPauseAfterMovement());
     }
+
+    // program is finished
+    INDICATORS->indicateProgramFinished();
 }
 
 // EOF

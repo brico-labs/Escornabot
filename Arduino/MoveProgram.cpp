@@ -23,10 +23,14 @@ See LICENSE.txt for details
 */
 
 #include "MoveProgram.h"
+#include "StatusIndicatorManager.h"
+
+extern StatusIndicatorManager* INDICATORS;
 
 
-MoveProgram::MoveProgram()
+MoveProgram::MoveProgram(uint16_t pause_after_movement)
 {
+    _pause_after_movement = pause_after_movement;
 	_program_file.move_count = 0;
 	_point_of_view = POV_INITIAL;
 }
@@ -36,6 +40,7 @@ MoveProgram::MoveProgram()
 void MoveProgram::clear()
 {
 	_program_file.move_count = 0;
+    INDICATORS->indicateProgramReset();
 }
 
 
@@ -64,6 +69,7 @@ void MoveProgram::setPointOfView(POV point_of_view)
 void MoveProgram::addMove(MOVE move)
 {
 	_program_file.move_list[_program_file.move_count++] = move;
+    INDICATORS->indicateMoveAdded(move);
 }
 
 
