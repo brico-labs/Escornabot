@@ -20,5 +20,5 @@ Inclúese o esquema de montaxe da botoneira (en .fzz e .svg) sobre unha placa de
 
 ## Configuración da botoneira
 
--ToDo-
+*[Configuración de los valores de la botonera] (https://github.com/brico-labs/Escornabot/wiki/axuste-botons-analoxica)
 
